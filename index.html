@@ -414,11 +414,17 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
       return (w.games || []).some(function (g) { return !(g.status === 'final' && g.as != null && g.hs != null); });
     });
   }
-  function rangeFor(games) {
-    var ts = games.map(function (g) { return new Date(g.start).getTime(); }).filter(function (t) { return !isNaN(t); });
-    if (!ts.length) return null;
-    var a = new Date(Math.min.apply(null, ts) - 36e5 * 24), b = new Date(Math.max.apply(null, ts) + 36e5 * 24);
-    return ymd(a) + '-' + ymd(b);
+  /* ESPN groups games by their U.S. Eastern calendar date and only accepts one date per request */
+  function etDate(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return null;
+    try { return d.toLocaleDateString('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/-/g, ''); }
+    catch (e) { return ymd(new Date(d.getTime() - 4 * 36e5)); }
+  }
+  function datesFor(games) {
+    var seen = {}, out = [];
+    games.forEach(function (g) { var k = etDate(g.start); if (k && !seen[k]) { seen[k] = true; out.push(k); } });
+    return out;
   }
   function refresh() {
     var weeks = weeksNeedingFeed();
@@ -428,12 +434,13 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
       ['nfl', 'cfb'].forEach(function (lg) {
         var games = w.games.filter(function (g) { return g.league === lg; });
         if (!games.length) return;
-        var range = rangeFor(games);
-        var url = lg === 'nfl' ? NFL + '?dates=' + range : CFB + '?groups=80&limit=300&dates=' + range;
-        jobs.push(FETCH(url, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) {
-          var events = (j && j.events) || [];
-          games.forEach(function (g) { var m = matchEvent(g, events); if (m) LIVE[g.id] = toOverlay(m); });
-        }));
+        datesFor(games).forEach(function (day) {
+          var url = lg === 'nfl' ? NFL + '?dates=' + day : CFB + '?groups=80&limit=300&dates=' + day;
+          jobs.push(FETCH(url, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) {
+            var events = (j && j.events) || [];
+            games.forEach(function (g) { if (etDate(g.start) !== day) return; var m = matchEvent(g, events); if (m) LIVE[g.id] = toOverlay(m); });
+          }));
+        });
       });
     });
     feed.state = 'loading';
