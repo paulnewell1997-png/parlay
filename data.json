@@ -28,17 +28,17 @@
       "nickname": "The Colelay",
       "date": "2026-09-27",
       "games": [
-        { "id": "atl-gb", "league": "nfl", "away": "ATL", "home": "GB", "awayName": "Falcons", "homeName": "Packers", "start": "2026-09-25T00:15:00Z", "title": "Thursday Night Football", "espn": { "away": ["ATL", "Atlanta"], "home": ["GB", "Green Bay"] } },
-        { "id": "iowa-mich", "league": "cfb", "away": "IOWA", "home": "MICH", "awayName": "Iowa", "homeName": "Michigan", "start": "2026-09-26T19:30:00Z", "espn": { "away": ["IOWA", "Iowa"], "home": ["MICH", "Michigan"] } },
-        { "id": "okla-uga", "league": "cfb", "away": "OKLA", "home": "UGA", "awayName": "Oklahoma", "homeName": "Georgia", "start": "2026-09-26T19:30:00Z", "espn": { "away": ["OU", "OKLA", "Oklahoma"], "home": ["UGA", "Georgia"] } },
-        { "id": "miss-fla", "league": "cfb", "away": "MISS", "home": "FLA", "awayName": "Ole Miss", "homeName": "Florida", "start": "2026-09-26T19:30:00Z", "espn": { "away": ["MISS", "Ole Miss"], "home": ["FLA", "Florida"] } },
-        { "id": "ore-usc", "league": "cfb", "away": "ORE", "home": "USC", "awayName": "Oregon", "homeName": "USC", "start": "2026-09-26T23:30:00Z", "espn": { "away": ["ORE", "Oregon"], "home": ["USC", "Southern California"] } },
-        { "id": "mizz-msst", "league": "cfb", "away": "MIZZ", "home": "MSST", "awayName": "Missouri", "homeName": "Mississippi St", "start": "2026-09-26T23:45:00Z", "espn": { "away": ["MIZ", "MIZZ", "Missouri"], "home": ["MSST", "Mississippi State"] } },
-        { "id": "cin-pit", "league": "nfl", "away": "CIN", "home": "PIT", "awayName": "Bengals", "homeName": "Steelers", "start": "2026-09-27T17:00:00Z", "wp": { "away": 63.4, "home": 36.6 }, "espn": { "away": ["CIN", "Cincinnati"], "home": ["PIT", "Pittsburgh"] } },
-        { "id": "lac-buf", "league": "nfl", "away": "LAC", "home": "BUF", "awayName": "Chargers", "homeName": "Bills", "start": "2026-09-27T17:00:00Z", "wp": { "away": 25.5, "home": 74.5 }, "espn": { "away": ["LAC", "Los Angeles Chargers"], "home": ["BUF", "Buffalo"] } },
-        { "id": "kc-mia", "league": "nfl", "away": "KC", "home": "MIA", "awayName": "Chiefs", "homeName": "Dolphins", "start": "2026-09-27T17:00:00Z", "wp": { "away": 84.8, "home": 15.2 }, "espn": { "away": ["KC", "Kansas City"], "home": ["MIA", "Miami"] } },
-        { "id": "nyj-det", "league": "nfl", "away": "NYJ", "home": "DET", "awayName": "Jets", "homeName": "Lions", "start": "2026-09-27T17:00:00Z", "wp": { "away": 28, "home": 72 }, "espn": { "away": ["NYJ", "New York Jets"], "home": ["DET", "Detroit"] } },
-        { "id": "la-den", "league": "nfl", "away": "LA", "home": "DEN", "awayName": "Rams", "homeName": "Broncos", "start": "2026-09-28T00:20:00Z", "title": "Sunday Night Football", "espn": { "away": ["LAR", "Los Angeles Rams"], "home": ["DEN", "Denver"] } }
+        { "id": "atl-gb", "league": "nfl", "away": "ATL", "home": "GB", "awayName": "Falcons", "homeName": "Packers", "start": "2026-09-25T00:15:00Z", "title": "Thursday Night Football", "status": "final", "as": 35, "hs": 14 },
+        { "id": "iowa-mich", "league": "cfb", "away": "IOWA", "home": "MICH", "awayName": "Iowa", "homeName": "Michigan", "start": "2026-09-26T19:30:00Z", "status": "final", "as": 20, "hs": 19 },
+        { "id": "okla-uga", "league": "cfb", "away": "OKLA", "home": "UGA", "awayName": "Oklahoma", "homeName": "Georgia", "start": "2026-09-26T19:30:00Z", "status": "final", "as": 13, "hs": 41 },
+        { "id": "miss-fla", "league": "cfb", "away": "MISS", "home": "FLA", "awayName": "Ole Miss", "homeName": "Florida", "start": "2026-09-26T19:30:00Z", "status": "final", "as": 28, "hs": 52 },
+        { "id": "ore-usc", "league": "cfb", "away": "ORE", "home": "USC", "awayName": "Oregon", "homeName": "USC", "start": "2026-09-26T23:30:00Z", "status": "final", "as": 41, "hs": 27 },
+        { "id": "mizz-msst", "league": "cfb", "away": "MIZZ", "home": "MSST", "awayName": "Missouri", "homeName": "Mississippi St", "start": "2026-09-26T23:45:00Z", "status": "final", "as": 24, "hs": 31 },
+        { "id": "cin-pit", "league": "nfl", "away": "CIN", "home": "PIT", "awayName": "Bengals", "homeName": "Steelers", "start": "2026-09-27T17:00:00Z", "status": "final", "as": 27, "hs": 30 },
+        { "id": "lac-buf", "league": "nfl", "away": "LAC", "home": "BUF", "awayName": "Chargers", "homeName": "Bills", "start": "2026-09-27T17:00:00Z", "status": "final", "as": 16, "hs": 24 },
+        { "id": "kc-mia", "league": "nfl", "away": "KC", "home": "MIA", "awayName": "Chiefs", "homeName": "Dolphins", "start": "2026-09-27T17:00:00Z", "status": "final", "as": 24, "hs": 10 },
+        { "id": "nyj-det", "league": "nfl", "away": "NYJ", "home": "DET", "awayName": "Jets", "homeName": "Lions", "start": "2026-09-27T17:00:00Z", "status": "final", "as": 24, "hs": 31 },
+        { "id": "la-den", "league": "nfl", "away": "LA", "home": "DEN", "awayName": "Rams", "homeName": "Broncos", "start": "2026-09-28T00:20:00Z", "title": "Sunday Night Football", "status": "final", "as": 26, "hs": 30 }
       ],
       "picks": [
         { "name": "William", "pick": "Oregon ML (-162)", "game": "ore-usc", "type": "ml", "side": "away", "odds": -162, "result": "" },
@@ -50,10 +50,45 @@
         { "name": "Seun", "pick": "Bills ML (-340)", "game": "lac-buf", "type": "ml", "side": "home", "odds": -340, "result": "" },
         { "name": "Cole", "pick": "Chiefs -6.5 (-235)", "game": "kc-mia", "type": "spread", "side": "away", "line": -6.5, "odds": -235, "result": "" },
         { "name": "Austin", "pick": "Georgia -14 (-108)", "game": "okla-uga", "type": "spread", "side": "home", "line": -14, "odds": -108, "result": "" },
-        { "name": "Alex", "pick": "Mahomes 15+ rushing yards (-160)", "game": "kc-mia", "type": "prop", "odds": -160, "result": "" },
+        { "name": "Alex", "pick": "Mahomes 20+ rushing yards (-160)", "game": "kc-mia", "type": "prop", "odds": -160, "result": "L" },
         { "name": "Jack", "pick": "Packers ML", "game": "atl-gb", "type": "ml", "side": "home", "result": "" },
         { "name": "Beck", "pick": "Lions ML (-305)", "game": "nyj-det", "type": "ml", "side": "home", "odds": -305, "result": "" },
         { "name": "Jackson", "pick": "Florida ML (-150)", "game": "miss-fla", "type": "ml", "side": "home", "odds": -150, "result": "" }
+      ]
+    },
+    {
+      "label": "Week 3",
+      "nickname": "The Crustay",
+      "date": "2026-10-04",
+      "games": [
+        { "id": "phi-atl", "league": "mlb", "away": "PHI", "home": "ATL", "awayName": "Phillies", "homeName": "Braves", "start": "2026-10-02T00:00:00Z", "title": "NL Wild Card, Game 3", "espn": { "away": ["PHI", "Philadelphia"], "home": ["ATL", "Atlanta"] } },
+        { "id": "pitt-vt", "league": "cfb", "away": "PITT", "home": "VT", "awayName": "Pitt", "homeName": "Virginia Tech", "start": "2026-10-02T23:00:00Z", "wp": { "away": 41.8, "home": 58.2 }, "espn": { "away": ["PITT", "Pittsburgh"], "home": ["VT", "Virginia Tech"] } },
+        { "id": "mtu-ku", "league": "cfb", "away": "MTSU", "home": "KU", "awayName": "Middle Tennessee", "homeName": "Kansas", "start": "2026-10-03T16:00:00Z", "espn": { "away": ["MTSU", "MTU", "Middle Tennessee"], "home": ["KU", "KAN", "Kansas"] } },
+        { "id": "aub-tenn", "league": "cfb", "away": "AUB", "home": "TENN", "awayName": "Auburn", "homeName": "Tennessee", "start": "2026-10-03T19:30:00Z", "espn": { "away": ["AUB", "Auburn"], "home": ["TENN", "Tennessee"] } },
+        { "id": "fla-mizz", "league": "cfb", "away": "FLA", "home": "MIZZ", "awayName": "Florida", "homeName": "Missouri", "start": "2026-10-03T19:30:00Z", "espn": { "away": ["FLA", "Florida"], "home": ["MIZ", "MIZZ", "Missouri"] } },
+        { "id": "ind-was", "league": "nfl", "away": "IND", "home": "WAS", "awayName": "Colts", "homeName": "Commanders", "start": "2026-10-04T13:30:00Z", "title": "London", "wp": { "away": 64, "home": 36 }, "espn": { "away": ["IND", "Indianapolis"], "home": ["WSH", "WAS", "Washington"] } },
+        { "id": "nyj-chi", "league": "nfl", "away": "NYJ", "home": "CHI", "awayName": "Jets", "homeName": "Bears", "start": "2026-10-04T17:00:00Z", "wp": { "away": 37.8, "home": 62.2 }, "espn": { "away": ["NYJ", "New York Jets"], "home": ["CHI", "Chicago"] } },
+        { "id": "gb-tb", "league": "nfl", "away": "GB", "home": "TB", "awayName": "Packers", "homeName": "Buccaneers", "start": "2026-10-04T17:00:00Z", "wp": { "away": 62.6, "home": 37.4 }, "espn": { "away": ["GB", "Green Bay"], "home": ["TB", "Tampa Bay"] } },
+        { "id": "ne-buf", "league": "nfl", "away": "NE", "home": "BUF", "awayName": "Patriots", "homeName": "Bills", "start": "2026-10-04T17:00:00Z", "wp": { "away": 26.8, "home": 73.2 }, "espn": { "away": ["NE", "New England"], "home": ["BUF", "Buffalo"] } },
+        { "id": "ten-bal", "league": "nfl", "away": "TEN", "home": "BAL", "awayName": "Titans", "homeName": "Ravens", "start": "2026-10-04T17:00:00Z", "wp": { "away": 13.3, "home": 86.7 }, "espn": { "away": ["TEN", "Tennessee"], "home": ["BAL", "Baltimore"] } },
+        { "id": "kc-lv", "league": "nfl", "away": "KC", "home": "LV", "awayName": "Chiefs", "homeName": "Raiders", "start": "2026-10-04T20:25:00Z", "espn": { "away": ["KC", "Kansas City"], "home": ["LV", "Las Vegas"] } },
+        { "id": "det-car", "league": "nfl", "away": "DET", "home": "CAR", "awayName": "Lions", "homeName": "Panthers", "start": "2026-10-05T00:20:00Z", "title": "Sunday Night Football", "espn": { "away": ["DET", "Detroit"], "home": ["CAR", "Carolina"] } }
+      ],
+      "picks": [
+        { "name": "William", "pick": "Bears ML (-180)", "game": "nyj-chi", "type": "ml", "side": "home", "odds": -180, "result": "" },
+        { "name": "Paul", "pick": "Tennessee ML (-285)", "game": "aub-tenn", "type": "ml", "side": "home", "odds": -285, "result": "" },
+        { "name": "Chris", "pick": "Colts ML (-200)", "game": "ind-was", "type": "ml", "side": "away", "odds": -200, "result": "" },
+        { "name": "Matthew", "pick": "Packers / Bucs under 39.5 (-102)", "game": "gb-tb", "type": "total", "ou": "under", "line": 39.5, "odds": -102, "result": "" },
+        { "name": "Ty", "pick": "Lions -3.5 (-118)", "game": "det-car", "type": "spread", "side": "away", "line": -3.5, "odds": -118, "result": "" },
+        { "name": "Billy", "pick": "Florida ML (-205)", "game": "fla-mizz", "type": "ml", "side": "away", "odds": -205, "result": "" },
+        { "name": "Seun", "pick": "Bills ML (-330)", "game": "ne-buf", "type": "ml", "side": "home", "odds": -330, "result": "" },
+        { "name": "Cole", "pick": "Chiefs ML (-225)", "game": "kc-lv", "type": "ml", "side": "away", "odds": -225, "result": "" },
+        { "name": "Preston", "pick": "Braves first 5 innings ML", "game": "phi-atl", "type": "ml", "side": "home", "segment": "f5", "result": "" },
+        { "name": "Austin", "pick": "MTSU +18.5 (-108)", "game": "mtu-ku", "type": "spread", "side": "away", "line": 18.5, "odds": -108, "result": "" },
+        { "name": "Alex", "pick": "K9 (Kenneth Walker) anytime TD (-175)", "game": "kc-lv", "type": "td", "player": "Kenneth Walker", "odds": -175, "result": "" },
+        { "name": "Jack", "pick": "Colts / Commanders under 48 (-120)", "game": "ind-was", "type": "total", "ou": "under", "line": 48, "odds": -120, "result": "" },
+        { "name": "Beck", "pick": "Derrick Henry anytime TD (-220)", "game": "ten-bal", "type": "td", "player": "Derrick Henry", "odds": -220, "result": "" },
+        { "name": "Jackson", "pick": "Virginia Tech ML (-165)", "game": "pitt-vt", "type": "ml", "side": "home", "odds": -165, "result": "" }
       ]
     }
   ]

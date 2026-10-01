@@ -236,8 +236,15 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
 <script>
 (function () {
   'use strict';
-  var NFL = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard';
-  var CFB = 'https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard';
+  var ESPN = 'https://site.api.espn.com/apis/site/v2/sports/';
+  var LEAGUES = {
+    nfl: { path: 'football/nfl', label: 'NFL', extra: '' },
+    cfb: { path: 'football/college-football', label: 'CFB', extra: '&groups=80&limit=300' },
+    mlb: { path: 'baseball/mlb', label: 'MLB', extra: '' }
+  };
+  function leagueOf(g) { return LEAGUES[g.league] || LEAGUES.nfl; }
+  function scoreboardUrl(lg, day) { return ESPN + LEAGUES[lg].path + '/scoreboard?dates=' + day + LEAGUES[lg].extra; }
+  function summaryUrl(lg, eventId) { return ESPN + LEAGUES[lg].path + '/summary?event=' + encodeURIComponent(eventId); }
   var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var FETCH = window.__parlayFetch || function (u, o) { return window.fetch(u, o); };
   var root = document.getElementById('root');
@@ -280,43 +287,89 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
   function gs(g) {
     if (!g) return null;
     var live = LIVE[g.id];
-    if (g.status === 'final' && g.as != null && g.hs != null) return { status: 'final', as: +g.as, hs: +g.hs, detail: g.detail || 'Final', period: g.period, clock: '', live: null };
+    if (g.status === 'final' && g.as != null && g.hs != null) return { status: 'final', as: +g.as, hs: +g.hs, detail: g.detail || 'Final', period: g.period, clock: '', f5: g.f5 ? { as: +g.f5.as, hs: +g.f5.hs, done: true } : null, scoring: g.scoring || null, players: null, live: null };
     if (live) return live;
-    return { status: g.status || 'scheduled', as: g.as == null ? null : +g.as, hs: g.hs == null ? null : +g.hs, detail: g.detail || '', period: g.period, clock: g.clock || '', live: null };
+    return { status: g.status || 'scheduled', as: g.as == null ? null : +g.as, hs: g.hs == null ? null : +g.hs, detail: g.detail || '', period: g.period, clock: g.clock || '', f5: null, scoring: null, players: null, live: null };
+  }
+  /* a pick is "settled" when the part of the game it rides on is over */
+  function settled(pick, s) {
+    if (!s) return false;
+    if (pick.segment === 'f5') return !!(s.f5 && s.f5.done);
+    return s.status === 'final';
   }
   function margin(pick, g) {
     var s = gs(g);
-    if (!s || s.as == null || s.hs == null) return null;
+    if (!s) return null;
     var as = s.as, hs = s.hs;
+    if (pick.segment === 'f5') { if (!s.f5) return null; as = s.f5.as; hs = s.f5.hs; }
+    if (as == null || hs == null) return null;
     var mine = pick.side === 'home' ? hs : as, theirs = pick.side === 'home' ? as : hs;
     if (pick.type === 'ml') return mine - theirs;
     if (pick.type === 'spread') return mine + (+pick.line || 0) - theirs;
     if (pick.type === 'total') { var tot = as + hs; return pick.ou === 'over' ? tot - (+pick.line) : (+pick.line) - tot; }
+    if (pick.type === 'stat') { var v = statValue(pick, s); if (v == null) return null; return pick.ou === 'under' ? (+pick.line) - v : v - (+pick.line); }
+    return null;
+  }
+  function nameMatch(text, player) {
+    if (!text || !player) return false;
+    var t = String(text).toLowerCase().replace(/[.'’]/g, ''), p = String(player).toLowerCase().replace(/[.'’]/g, '');
+    return t.indexOf(p) === 0;
+  }
+  function tdScored(pick, s) {
+    if (!s || !s.scoring) return null;
+    return s.scoring.some(function (p) { return p.td && nameMatch(p.text, pick.player); });
+  }
+  function statValue(pick, s) {
+    if (!s || !s.players) return null;
+    var group = pick.stat || 'rushing', key = pick.statKey || 'YDS';
+    for (var i = 0; i < s.players.length; i++) {
+      var t = s.players[i], cat = null;
+      for (var j = 0; j < (t.statistics || []).length; j++) if (t.statistics[j].name === group) { cat = t.statistics[j]; break; }
+      if (!cat) continue;
+      var idx = (cat.labels || []).indexOf(key);
+      if (idx < 0) continue;
+      for (var k = 0; k < (cat.athletes || []).length; k++) {
+        var a = cat.athletes[k];
+        if (a.athlete && nameMatch(a.athlete.displayName, pick.player)) return +(a.stats[idx]) || 0;
+      }
+      return 0; /* team found in the box score but the player has no line yet */
+    }
     return null;
   }
   function effResult(pick, week) {
     if (pick.result) return pick.result;
     var g = gameOf(week, pick.game), s = gs(g);
-    if (s && s.status === 'final') { var m = margin(pick, g); if (m == null) return ''; return m > 0 ? 'W' : m < 0 ? 'L' : 'P'; }
-    return '';
+    if (!s) return '';
+    if (pick.type === 'td') { var hit = tdScored(pick, s); if (hit) return 'W'; if (hit === false && s.status === 'final') return 'L'; return ''; }
+    if (!settled(pick, s)) return '';
+    var m = margin(pick, g);
+    if (m == null) return '';
+    return m > 0 ? 'W' : m < 0 ? 'L' : 'P';
   }
   function pickStatus(pick, week) {
     var r = effResult(pick, week);
-    if (r) return { code: r, label: r === 'W' ? 'Won' : r === 'L' ? 'Lost' : 'Push' };
     var g = gameOf(week, pick.game), s = gs(g);
+    if (r) return { code: r, label: r === 'W' ? (pick.type === 'td' && s && s.status === 'live' ? 'Scored' : 'Won') : r === 'L' ? 'Lost' : 'Push' };
     if (!s || s.status === 'scheduled') return { code: 'pending', label: 'Pending' };
-    if (s.status === 'final') return { code: 'manual', label: 'Needs result' };
+    if (pick.type === 'td') return s.scoring ? { code: 'even', label: 'No TD yet' } : { code: 'manual', label: 'Tracking' };
+    if (pick.type === 'prop' || !pick.type) return { code: 'manual', label: s.status === 'final' ? 'Needs result' : 'Tracking' };
+    if (settled(pick, s)) return { code: 'manual', label: 'Needs result' };
     var m = margin(pick, g);
     if (m == null) return { code: 'manual', label: 'Tracking' };
     var d = fmtNum(Math.abs(m));
-    if (pick.type === 'ml') return m > 0 ? { code: 'good', label: 'Up ' + d } : m < 0 ? { code: 'bad', label: 'Down ' + d } : { code: 'even', label: 'Tied' };
+    var thru = pick.segment === 'f5' && s.f5 ? ' thru ' + Math.min(5, s.f5.innings || 0) : '';
+    if (pick.type === 'ml') return m > 0 ? { code: 'good', label: 'Up ' + d + thru } : m < 0 ? { code: 'bad', label: 'Down ' + d + thru } : { code: 'even', label: 'Tied' + thru };
     if (pick.type === 'spread') return m > 0 ? { code: 'good', label: 'Covering by ' + d } : m < 0 ? { code: 'bad', label: 'Short by ' + d } : { code: 'even', label: 'On the number' };
+    if (pick.type === 'stat') { var v = statValue(pick, s); return m > 0 ? { code: 'good', label: v + ' so far, over' } : { code: 'bad', label: v + ' so far, needs ' + pick.line }; }
     var ou = pick.ou === 'over' ? 'Over' : 'Under';
     return m > 0 ? { code: 'good', label: ou + ' by ' + d } : m < 0 ? { code: 'bad', label: (pick.ou === 'over' ? 'Under' : 'Over') + ' by ' + d } : { code: 'even', label: 'On the number' };
   }
   function needsText(pick, g) {
     if (!g) return '';
     var team = pick.side === 'home' ? g.homeName : g.awayName;
+    if (pick.type === 'td') return (pick.player || 'The player') + ' scores a touchdown at any point in the game.';
+    if (pick.type === 'stat') return (pick.player || 'The player') + ' ' + (pick.ou === 'under' ? 'under' : 'over') + ' ' + pick.line + ' ' + (pick.statLabel || (pick.stat || 'rushing') + ' yards') + '.';
+    if (pick.segment === 'f5') return team + ' ahead after 5 innings (tied after 5 is a push).';
     if (pick.type === 'ml') return team + ' win outright.';
     if (pick.type === 'spread') {
       var l = +pick.line || 0;
@@ -382,7 +435,7 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
       if (!ok && !swapped) return;
       var dt = Math.abs(new Date(ev.date).getTime() - start);
       if (dt > 36 * 3600e3) return;
-      if (!best || dt < best.dt) best = { ev: ev, comp: comp, home: swapped ? away : home, away: swapped ? home : away, dt: dt };
+      if (!best || dt < best.dt) best = { ev: ev, comp: comp, home: swapped ? away : home, away: swapped ? home : away, dt: dt, gameId: game.id };
     });
     return best;
   }
@@ -394,8 +447,17 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     var tv = '';
     try { tv = (m.comp.broadcasts && m.comp.broadcasts[0] && m.comp.broadcasts[0].names && m.comp.broadcasts[0].names[0]) || (m.comp.geoBroadcasts && m.comp.geoBroadcasts[0] && m.comp.geoBroadcasts[0].media && m.comp.geoBroadcasts[0].media.shortName) || ''; } catch (e) {}
     var as = m.away.score, hs = m.home.score;
+    var f5 = null;
+    if (m.away.linescores || m.home.linescores) {
+      var la = (m.away.linescores || []).map(function (l) { return +l.value || 0; }), lh = (m.home.linescores || []).map(function (l) { return +l.value || 0; });
+      var sum5 = function (a) { return a.slice(0, 5).reduce(function (x, y) { return x + y; }, 0); };
+      var period = +st.period || 0;
+      f5 = { as: sum5(la), hs: sum5(lh), innings: Math.min(5, Math.max(la.length, lh.length)), done: stateCode === 'final' || period >= 6 };
+    }
+    var prev = LIVE[m.gameId] || {};
     return {
       status: stateCode,
+      eventId: m.ev.id,
       as: as == null || as === '' ? null : +as,
       hs: hs == null || hs === '' ? null : +hs,
       detail: type.shortDetail || type.detail || '',
@@ -406,8 +468,28 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
       lastPlay: sit && sit.lastPlay && sit.lastPlay.text ? sit.lastPlay.text : '',
       odds: odds ? { details: odds.details || '', ou: odds.overUnder } : null,
       tv: tv,
+      f5: f5,
+      scoring: prev.scoring || null,
+      players: prev.players || null,
       live: true
     };
+  }
+  /* props (anytime TD, player stats) need the game summary: scoring plays and the box score */
+  function needsSummary(g, week) {
+    var s = LIVE[g.id];
+    if (!s || s.status === 'scheduled' || !s.eventId) return false;
+    if (g.status === 'final' && g.as != null) return false;
+    return week.picks.some(function (p) { return p.game === g.id && (p.type === 'td' || p.type === 'stat') && !p.result; });
+  }
+  function fetchSummary(g) {
+    return FETCH(summaryUrl(g.league, LIVE[g.id].eventId), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) {
+      var ov = LIVE[g.id];
+      if (!ov) return;
+      ov.scoring = (j.scoringPlays || []).map(function (p) {
+        return { text: p.text || '', td: !!((p.scoringType && p.scoringType.name === 'touchdown') || (p.type && p.type.abbreviation === 'TD')), team: p.team && p.team.abbreviation, period: p.period && p.period.number };
+      });
+      ov.players = (j.boxscore && j.boxscore.players) || null;
+    });
   }
   function weeksNeedingFeed() {
     return DATA.weeks.filter(function (w) {
@@ -431,12 +513,11 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     if (!weeks.length) { feed = { state: 'ok', at: Date.now(), error: '' }; schedule(); render(); return Promise.resolve(); }
     var jobs = [];
     weeks.forEach(function (w) {
-      ['nfl', 'cfb'].forEach(function (lg) {
-        var games = w.games.filter(function (g) { return g.league === lg; });
+      Object.keys(LEAGUES).forEach(function (lg) {
+        var games = w.games.filter(function (g) { return g.league === lg && !(g.status === 'final' && g.as != null && g.hs != null); });
         if (!games.length) return;
         datesFor(games).forEach(function (day) {
-          var url = lg === 'nfl' ? NFL + '?dates=' + day : CFB + '?groups=80&limit=300&dates=' + day;
-          jobs.push(FETCH(url, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) {
+          jobs.push(FETCH(scoreboardUrl(lg, day), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) {
             var events = (j && j.events) || [];
             games.forEach(function (g) { if (etDate(g.start) !== day) return; var m = matchEvent(g, events); if (m) LIVE[g.id] = toOverlay(m); });
           }));
@@ -444,7 +525,11 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
       });
     });
     feed.state = 'loading';
-    return Promise.all(jobs).then(function () { feed = { state: 'ok', at: Date.now(), error: '' }; }, function (e) { feed = { state: 'err', at: feed.at, error: (e && e.message) || 'fetch failed' }; }).then(function () { schedule(); render(); });
+    return Promise.all(jobs).then(function () {
+      var more = [];
+      weeks.forEach(function (w) { w.games.forEach(function (g) { if (needsSummary(g, w)) more.push(fetchSummary(g).catch(function () {})); }); });
+      return Promise.all(more);
+    }).then(function () { feed = { state: 'ok', at: Date.now(), error: '' }; }, function (e) { feed = { state: 'err', at: feed.at, error: (e && e.message) || 'fetch failed' }; }).then(function () { schedule(); render(); });
   }
   function schedule() {
     if (timer) clearTimeout(timer);
@@ -533,17 +618,22 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
       : '<span class="status sched">' + esc(fmtKick(g.start)) + '</span>';
     var wpText = g.wp && (g.wp.home != null || g.wp.away != null) ? (g.wp.home >= g.wp.away ? g.homeName + ' ' + fmtNum(g.wp.home) + '%' : g.awayName + ' ' + fmtNum(g.wp.away) + '%') : '';
     var sit = live && (s.down || s.lastPlay) ? '<div class="sit">' + (s.down ? '<b>' + esc(s.down) + '</b>' : '') + (s.down && s.lastPlay ? ' · ' : '') + (s.lastPlay ? esc(s.lastPlay) : '') + '</div>' : '';
+    var isBall = g.league === 'mlb';
+    var f5Line = isBall && s.f5 && (live || fin) ? '<dt>First 5</dt><dd>' + esc(g.away) + ' ' + s.f5.as + ', ' + esc(g.home) + ' ' + s.f5.hs + (s.f5.done ? ' (complete)' : ' thru ' + s.f5.innings) + '</dd>' : '';
+    var tdPicks = riders.filter(function (p) { return p.type === 'td'; });
+    var tdLine = tdPicks.length && s.scoring ? '<dt>Touchdowns</dt><dd>' + (s.scoring.filter(function (p) { return p.td; }).map(function (p) { var mine = tdPicks.some(function (pk) { return nameMatch(p.text, pk.player); }); return (mine ? '<b>' : '') + esc(p.text.replace(/\s*\(.*\)\s*$/, '')) + (mine ? '</b>' : ''); }).join('<br>') || 'None yet') + '</dd>' : '';
     var details = '<div class="details">' +
       riders.map(function (p) { var ip = implied(p.odds); return '<p class="need"><b>' + esc(p.name) + '</b> needs: ' + esc(needsText(p, g)) + (ip != null ? ' <span style="color:var(--ink-3)">Took ' + esc(oddsText(p.odds)) + ' · implied ' + fmtNum(ip) + '%</span>' : '') + '</p>'; }).join('') +
       '<dl>' +
-      '<dt>Kickoff</dt><dd>' + esc(fmtDay(g.start)) + ' · ' + esc(fmtKick(g.start).replace(/^\w+\s/, '')) + (g.title ? ' · ' + esc(g.title) : '') + (s.tv ? ' · ' + esc(s.tv) : '') + '</dd>' +
+      '<dt>' + (isBall ? 'First pitch' : 'Kickoff') + '</dt><dd>' + esc(fmtDay(g.start)) + ' · ' + esc(fmtKick(g.start).replace(/^\w+\s/, '')) + (g.title ? ' · ' + esc(g.title) : '') + (s.tv ? ' · ' + esc(s.tv) : '') + '</dd>' +
       (s.odds && (s.odds.details || s.odds.ou) ? '<dt>Line</dt><dd>' + esc(s.odds.details || '') + (s.odds.ou ? (s.odds.details ? ' · ' : '') + 'O/U ' + esc(s.odds.ou) : '') + ' <span style="color:var(--ink-3)">(ESPN)</span></dd>' : '') +
       (wpText ? '<dt>Win prob.</dt><dd>' + esc(wpText) + ' <span style="color:var(--ink-3)">(pregame model)</span></dd>' : '') +
-      (hasScore ? '<dt>Total</dt><dd>' + (as + hs) + ' points' + (fin ? '' : ' so far') + '</dd>' : '') +
+      f5Line + tdLine +
+      (hasScore && !isBall ? '<dt>Total</dt><dd>' + (as + hs) + ' points' + (fin ? '' : ' so far') + '</dd>' : '') +
       '</dl></div>';
     var open = state.open[g.id] ? ' open' : '';
     return '<article class="game' + (live ? ' is-live' : '') + open + '" data-game="' + esc(g.id) + '">' +
-      '<div class="game-head"><span class="lg">' + esc(g.league === 'nfl' ? 'NFL' : 'CFB') + '</span>' + (g.title ? '<span class="gtitle">' + esc(g.title) + '</span>' : '') + status + '</div>' +
+      '<div class="game-head"><span class="lg">' + esc(leagueOf(g).label) + '</span>' + (g.title ? '<span class="gtitle">' + esc(g.title) + '</span>' : '') + status + '</div>' +
       '<div class="game-body">' +
       '<div class="team ' + awayCls + '"><span class="abbr">' + esc(g.away) + '</span><span class="tname">' + esc(g.awayName) + '</span>' + (live && s.possession === 'away' ? '<span class="poss" title="Has the ball"></span>' : '') + '</div>' +
       (hasScore ? '<div class="score' + (awayCls === 'loser' ? ' dim' : '') + '">' + as + '</div>' : '<div class="score tbd"></div>') +
