@@ -281,6 +281,8 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     return names;
   }
   function findPick(week, name) { for (var i = 0; i < week.picks.length; i++) if (week.picks[i].name === name) return week.picks[i]; return null; }
+  /* a leg is a real bet; a "skip" entry (on PTO, sat out) is a note, not a leg */
+  function isLeg(p) { return !!(p && (p.pick || p.result) && p.type !== 'skip'); }
   function gameOf(week, id) { if (!id) return null; for (var i = 0; i < week.games.length; i++) if (week.games[i].id === id) return week.games[i]; return null; }
 
   /* merged view of a game: baked data.json fields first, then the live feed */
@@ -402,7 +404,7 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
   function weekSummary(week) {
     var s = { w: 0, l: 0, p: 0, pending: 0, live: 0, legs: 0 };
     week.picks.forEach(function (pk) {
-      if (!pk.pick && !pk.result) return;
+      if (!isLeg(pk)) return;
       s.legs++;
       var r = effResult(pk, week);
       if (r === 'W') s.w++; else if (r === 'L') s.l++; else if (r === 'P') s.p++;
@@ -567,7 +569,7 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     var week = currentWeek();
     if (!week) return '<div class="empty">No weeks yet.</div>';
     var s = weekSummary(week);
-    var legs = week.picks.filter(function (p) { return p.pick || p.result; });
+    var legs = week.picks.filter(isLeg);
     var byKick = legs.slice().sort(function (a, b) {
       var ga = gameOf(week, a.game), gb = gameOf(week, b.game);
       var ta = ga ? new Date(ga.start).getTime() : Infinity, tb = gb ? new Date(gb.start).getTime() : Infinity;
@@ -577,7 +579,10 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     var stateChip = s.busted ? '<span class="chip big miss">Parlay busted</span>' : s.hit ? '<span class="chip big hit">Parlay hit</span>' : s.live ? '<span class="chip big play">Alive · in play</span>' : s.legs ? '<span class="chip big open">Alive · ' + s.pending + ' to go</span>' : '';
     var upcoming = week.games.filter(function (g) { var st = gs(g); return st.status === 'scheduled' && new Date(g.start) > Date.now(); }).sort(function (a, b) { return new Date(a.start) - new Date(b.start); });
     var next = upcoming.length ? '<span class="next" data-countdown="' + esc(upcoming[0].start) + '">Next kickoff ' + esc(countdown(upcoming[0].start)) + '</span>' : (s.live ? '<span class="next">Games in progress</span>' : '');
-    var missing = roster().filter(function (n) { var pk = findPick(week, n); return !pk || (!pk.pick && !pk.result); });
+    var missing = roster().filter(function (n) { return !isLeg(findPick(week, n)); }).map(function (n) {
+      var pk = findPick(week, n);
+      return pk && pk.type === 'skip' && pk.pick ? n + ' (' + pk.pick.replace(/^on\s+/i, 'on ') + ')' : n;
+    });
     var html = renderFeedBar() +
       '<section class="pulse" aria-label="Parlay status">' +
       '<div class="pulse-head"><span class="pulse-title">' + esc(week.label) + '</span>' +
@@ -600,13 +605,13 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     shown.forEach(function (g) { var day = fmtDay(g.start); if (day !== lastDay) { html += '<h3 class="day">' + esc(day) + '</h3>'; lastDay = day; } html += renderGame(g, week); });
     var unlinked = legs.filter(function (p) { return !gameOf(week, p.game); });
     if (unlinked.length && state.filter === 'all') html += '<h3 class="day">Other picks</h3><div class="game"><div class="riders">' + unlinked.map(function (p) { return renderRider(p, week); }).join('') + '</div></div>';
-    if (missing.length) html += '<div class="nopick">No pick yet: ' + missing.map(esc).join(', ') + '</div>';
+    if (missing.length) html += '<div class="nopick">Sitting out: ' + missing.map(esc).join(', ') + '</div>';
     html += '<p class="asof">Kickoff times are shown in your local time zone. Scores come from ESPN’s public scoreboard and refresh automatically.</p>';
     return html;
   }
   function renderGame(g, week) {
     var s = gs(g);
-    var riders = week.picks.filter(function (p) { return p.game === g.id && (p.pick || p.result); });
+    var riders = week.picks.filter(function (p) { return p.game === g.id && isLeg(p); });
     var live = s.status === 'live', fin = s.status === 'final';
     var hasScore = s.as != null && s.hs != null && (live || fin);
     var as = s.as || 0, hs = s.hs || 0;
