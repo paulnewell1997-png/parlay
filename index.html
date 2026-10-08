@@ -116,6 +116,7 @@ tr.lead td { background: var(--lead-bg); }
 .w { color: var(--win); font-weight: 700; }
 .l { color: var(--loss); font-weight: 700; }
 .pct { color: var(--ink-2); }
+.juice { color: var(--ink-2); white-space: nowrap; }
 .form { display: flex; gap: 3px; flex-wrap: wrap; min-width: 60px; }
 .dot { width: 12px; height: 12px; border-radius: 3px; background: var(--push-bg); display: inline-block; }
 .dot.W { background: var(--win); }
@@ -227,6 +228,11 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
   .pick-name { flex-basis: 78px; }
   .rider-name { flex-basis: 66px; }
   .tab { font-size: 16px; padding: 9px 12px 11px; }
+  th { padding: 9px 6px; letter-spacing: .06em; }
+  td { padding: 8px 6px; }
+  .rank { width: 30px; font-size: 17px; }
+  .name { font-size: 14px; }
+  .form { min-width: 44px; }
 }
 @media (prefers-reduced-motion: reduce) { .caret { transition: none; } .ldot { animation: none; } }
 </style>
@@ -384,11 +390,12 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
   }
   function standings() {
     var rows = roster().map(function (n) {
-      var r = { name: n, w: 0, l: 0, p: 0, form: [] };
+      var r = { name: n, w: 0, l: 0, p: 0, form: [], juice: 0, priced: 0 };
       DATA.weeks.forEach(function (wk) {
         var pk = findPick(wk, n);
         var res = pk ? effResult(pk, wk) : '';
         if (res === 'W') r.w++; else if (res === 'L') r.l++; else if (res === 'P') r.p++;
+        if (isLeg(pk) && typeof pk.odds === 'number' && isFinite(pk.odds)) { r.juice += pk.odds; r.priced++; }
         var s = pk ? gs(gameOf(wk, pk.game)) : null;
         r.form.push({ code: res || (s && s.status === 'live' ? 'live' : ''), pick: pk ? pk.pick : '', label: wk.label });
       });
@@ -401,6 +408,8 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     return rows;
   }
   function pctText(r) { if (!(r.w + r.l)) return '—'; var s = (r.w / (r.w + r.l)).toFixed(3); return s === '1.000' ? s : s.replace(/^0/, ''); }
+  function juiceText(j) { var n = Math.round(Math.abs(j)); var str = n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); return (j < 0 ? '−' : j > 0 ? '+' : '') + str; }
+  function juiceTitle(r) { if (!r.priced) return 'No priced picks yet'; return r.priced + ' priced pick' + (r.priced === 1 ? '' : 's') + ' · average ' + juiceText(r.juice / r.priced); }
   function weekSummary(week) {
     var s = { w: 0, l: 0, p: 0, pending: 0, live: 0, legs: 0 };
     week.picks.forEach(function (pk) {
@@ -663,12 +672,13 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     var rows = standings();
     if (!rows.length) return '<h2>Standings</h2><div class="empty">No players yet.</div>';
     var showP = rows.some(function (r) { return r.p; });
-    var html = '<h2>Standings <span class="count">' + rows.length + ' players</span></h2><div class="table-wrap"><table><thead><tr><th class="rank">#</th><th>Player</th><th class="num">W</th><th class="num">L</th>' + (showP ? '<th class="num">P</th>' : '') + '<th class="num">Pct</th><th>By week</th></tr></thead><tbody>';
+    var html = '<h2>Standings <span class="count">' + rows.length + ' players</span></h2><div class="table-wrap"><table><thead><tr><th class="rank">#</th><th>Player</th><th class="num">W</th><th class="num">L</th>' + (showP ? '<th class="num">P</th>' : '') + '<th class="num">Pct</th><th class="num" title="Every pick’s odds added up">Juice</th><th>By week</th></tr></thead><tbody>';
     rows.forEach(function (r) {
       var form = r.form.map(function (f) { var t = esc(f.label) + ': ' + (f.pick ? esc(f.pick) + ' ' : 'no pick ') + (f.code === 'live' ? '(live)' : f.code ? '(' + f.code + ')' : f.pick ? '(pending)' : ''); return '<span class="dot ' + (f.code || 'none') + '" title="' + t + '"></span>'; }).join('');
-      html += '<tr' + (r.rank === 1 && (r.w + r.l + r.p) ? ' class="lead"' : '') + '><td class="rank">' + r.rankText + '</td><td class="name">' + esc(r.name) + '</td><td class="num w">' + r.w + '</td><td class="num l">' + r.l + '</td>' + (showP ? '<td class="num">' + r.p + '</td>' : '') + '<td class="num pct">' + pctText(r) + '</td><td><div class="form">' + form + '</div></td></tr>';
+      html += '<tr' + (r.rank === 1 && (r.w + r.l + r.p) ? ' class="lead"' : '') + '><td class="rank">' + r.rankText + '</td><td class="name">' + esc(r.name) + '</td><td class="num w">' + r.w + '</td><td class="num l">' + r.l + '</td>' + (showP ? '<td class="num">' + r.p + '</td>' : '') + '<td class="num pct">' + pctText(r) + '</td><td class="num juice" title="' + esc(juiceTitle(r)) + '">' + (r.priced ? juiceText(r.juice) : '—') + '</td><td><div class="form">' + form + '</div></td></tr>';
     });
-    return html + '</tbody></table></div><div class="legend"><span><i class="dot W"></i>Win</span><span><i class="dot L"></i>Loss</span><span><i class="dot P"></i>Push</span><span><i class="dot live"></i>In play</span><span><i class="dot none"></i>Pending / no pick</span></div>';
+    return html + '</tbody></table></div><div class="legend"><span><i class="dot W"></i>Win</span><span><i class="dot L"></i>Loss</span><span><i class="dot P"></i>Push</span><span><i class="dot live"></i>In play</span><span><i class="dot none"></i>Pending / no pick</span></div>' +
+      '<p class="legend" style="margin-top:6px;display:block">Juice is every pick’s odds added up: the more negative, the heavier the chalk. Where the chat left the price off, the closing line was used.</p>';
   }
   function renderWeek(week, openByDefault) {
     var s = weekSummary(week);
