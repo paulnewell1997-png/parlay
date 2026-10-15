@@ -848,6 +848,13 @@
        "CWS",
        "Chicago White Sox"
       ]
+     },
+     "status": "final",
+     "as": 9,
+     "hs": 5,
+     "f5": {
+      "as": 3,
+      "hs": 4
      }
     },
     {
@@ -869,7 +876,10 @@
        "MIZZ",
        "Missouri"
       ]
-     }
+     },
+     "status": "final",
+     "as": 6,
+     "hs": 27
     },
     {
      "id": "ind-neb",
@@ -888,7 +898,10 @@
        "NEB",
        "Nebraska"
       ]
-     }
+     },
+     "status": "final",
+     "as": 20,
+     "hs": 17
     },
     {
      "id": "ou-tex",
@@ -909,7 +922,10 @@
        "TEX",
        "Texas"
       ]
-     }
+     },
+     "status": "final",
+     "as": 27,
+     "hs": 24
     },
     {
      "id": "bsu-fres",
@@ -928,7 +944,10 @@
        "FRES",
        "Fresno State"
       ]
-     }
+     },
+     "status": "final",
+     "as": 38,
+     "hs": 31
     },
     {
      "id": "phi-jax",
@@ -949,7 +968,10 @@
        "JAC",
        "Jacksonville"
       ]
-     }
+     },
+     "status": "final",
+     "as": 17,
+     "hs": 19
     },
     {
      "id": "min-no",
@@ -968,7 +990,10 @@
        "NO",
        "New Orleans"
       ]
-     }
+     },
+     "status": "final",
+     "as": 23,
+     "hs": 13
     },
     {
      "id": "lv-ne",
@@ -987,7 +1012,10 @@
        "NE",
        "New England"
       ]
-     }
+     },
+     "status": "final",
+     "as": 17,
+     "hs": 45
     },
     {
      "id": "chi-gb",
@@ -1006,7 +1034,10 @@
        "GB",
        "Green Bay"
       ]
-     }
+     },
+     "status": "final",
+     "as": 7,
+     "hs": 31
     },
     {
      "id": "cin-mia",
@@ -1025,7 +1056,10 @@
        "MIA",
        "Miami"
       ]
-     }
+     },
+     "status": "final",
+     "as": 31,
+     "hs": 24
     },
     {
      "id": "det-ari",
@@ -1044,7 +1078,10 @@
        "ARI",
        "Arizona"
       ]
-     }
+     },
+     "status": "final",
+     "as": 45,
+     "hs": 21
     },
     {
      "id": "buf-lar",
@@ -1064,7 +1101,10 @@
        "LAR",
        "Los Angeles Rams"
       ]
-     }
+     },
+     "status": "final",
+     "as": 37,
+     "hs": 34
     }
    ],
    "picks": [
@@ -1197,6 +1237,385 @@
      "type": "ml",
      "side": "away",
      "odds": -240,
+     "result": ""
+    }
+   ]
+  },
+  {
+   "label": "Week 5",
+   "nickname": "The Ay",
+   "date": "2026-10-18",
+   "games": [
+    {
+     "id": "mil-lad",
+     "league": "mlb",
+     "away": "MIL",
+     "home": "LAD",
+     "awayName": "Brewers",
+     "homeName": "Dodgers",
+     "start": "2026-10-16T00:00:00Z",
+     "title": "NLCS Game 3",
+     "espn": {
+      "away": [
+       "MIL",
+       "Milwaukee"
+      ],
+      "home": [
+       "LAD",
+       "Los Angeles Dodgers"
+      ]
+     }
+    },
+    {
+     "id": "sea-den",
+     "league": "nfl",
+     "away": "SEA",
+     "home": "DEN",
+     "awayName": "Seahawks",
+     "homeName": "Broncos",
+     "start": "2026-10-16T00:15:00Z",
+     "title": "Thursday Night Football",
+     "espn": {
+      "away": [
+       "SEA",
+       "Seattle"
+      ],
+      "home": [
+       "DEN",
+       "Denver"
+      ]
+     }
+    },
+    {
+     "id": "osu-iu",
+     "league": "cfb",
+     "away": "OSU",
+     "home": "IU",
+     "awayName": "Ohio State",
+     "homeName": "Indiana",
+     "start": "2026-10-17T16:00:00Z",
+     "espn": {
+      "away": [
+       "OSU",
+       "Ohio State"
+      ],
+      "home": [
+       "IU",
+       "IND",
+       "Indiana"
+      ]
+     }
+    },
+    {
+     "id": "msst-lsu",
+     "league": "cfb",
+     "away": "MSST",
+     "home": "LSU",
+     "awayName": "Mississippi State",
+     "homeName": "LSU",
+     "start": "2026-10-17T16:00:00Z",
+     "espn": {
+      "away": [
+       "MSST",
+       "Mississippi State"
+      ],
+      "home": [
+       "LSU"
+      ]
+     }
+    },
+    {
+     "id": "ku-ksu",
+     "league": "cfb",
+     "away": "KU",
+     "home": "KSU",
+     "awayName": "Kansas",
+     "homeName": "Kansas State",
+     "start": "2026-10-17T16:00:00Z",
+     "title": "Sunflower Showdown",
+     "espn": {
+      "away": [
+       "KU",
+       "Kansas"
+      ],
+      "home": [
+       "KSU",
+       "Kansas State"
+      ]
+     }
+    },
+    {
+     "id": "miz-miss",
+     "league": "cfb",
+     "away": "MIZ",
+     "home": "MISS",
+     "awayName": "Missouri",
+     "homeName": "Ole Miss",
+     "start": "2026-10-17T19:30:00Z",
+     "espn": {
+      "away": [
+       "MIZ",
+       "MIZZ",
+       "Missouri"
+      ],
+      "home": [
+       "MISS",
+       "Ole Miss"
+      ]
+     }
+    },
+    {
+     "id": "unlv-afa",
+     "league": "cfb",
+     "away": "UNLV",
+     "home": "AFA",
+     "awayName": "UNLV",
+     "homeName": "Air Force",
+     "start": "2026-10-17T19:30:00Z",
+     "espn": {
+      "away": [
+       "UNLV"
+      ],
+      "home": [
+       "AFA",
+       "AF",
+       "Air Force"
+      ]
+     }
+    },
+    {
+     "id": "wis-ucla",
+     "league": "cfb",
+     "away": "WIS",
+     "home": "UCLA",
+     "awayName": "Wisconsin",
+     "homeName": "UCLA",
+     "start": "2026-10-17T23:30:00Z",
+     "espn": {
+      "away": [
+       "WIS",
+       "Wisconsin"
+      ],
+      "home": [
+       "UCLA"
+      ]
+     }
+    },
+    {
+     "id": "hou-jax",
+     "league": "nfl",
+     "away": "HOU",
+     "home": "JAX",
+     "awayName": "Texans",
+     "homeName": "Jaguars",
+     "start": "2026-10-18T13:30:00Z",
+     "title": "London",
+     "espn": {
+      "away": [
+       "HOU",
+       "Houston"
+      ],
+      "home": [
+       "JAX",
+       "JAC",
+       "Jacksonville"
+      ]
+     }
+    },
+    {
+     "id": "bal-cle",
+     "league": "nfl",
+     "away": "BAL",
+     "home": "CLE",
+     "awayName": "Ravens",
+     "homeName": "Browns",
+     "start": "2026-10-18T17:00:00Z",
+     "espn": {
+      "away": [
+       "BAL",
+       "Baltimore"
+      ],
+      "home": [
+       "CLE",
+       "Cleveland"
+      ]
+     }
+    },
+    {
+     "id": "lac-kc",
+     "league": "nfl",
+     "away": "LAC",
+     "home": "KC",
+     "awayName": "Chargers",
+     "homeName": "Chiefs",
+     "start": "2026-10-18T20:25:00Z",
+     "espn": {
+      "away": [
+       "LAC",
+       "Los Angeles Chargers"
+      ],
+      "home": [
+       "KC",
+       "Kansas City"
+      ]
+     }
+    },
+    {
+     "id": "dal-gb",
+     "league": "nfl",
+     "away": "DAL",
+     "home": "GB",
+     "awayName": "Cowboys",
+     "homeName": "Packers",
+     "start": "2026-10-19T00:20:00Z",
+     "title": "Sunday Night Football",
+     "espn": {
+      "away": [
+       "DAL",
+       "Dallas"
+      ],
+      "home": [
+       "GB",
+       "Green Bay"
+      ]
+     }
+    }
+   ],
+   "picks": [
+    {
+     "name": "William",
+     "pick": "Packers ML (-122)",
+     "game": "dal-gb",
+     "type": "ml",
+     "side": "home",
+     "odds": -122,
+     "result": ""
+    },
+    {
+     "name": "Paul",
+     "pick": "Mississippi State +14 (-108)",
+     "game": "msst-lsu",
+     "type": "spread",
+     "side": "away",
+     "line": 14,
+     "odds": -108,
+     "result": ""
+    },
+    {
+     "name": "Chris",
+     "pick": "Ohio State ML (-185)",
+     "game": "osu-iu",
+     "type": "ml",
+     "side": "away",
+     "odds": -185,
+     "result": ""
+    },
+    {
+     "name": "Matthew",
+     "pick": "Jags ML (-148)",
+     "game": "hou-jax",
+     "type": "ml",
+     "side": "home",
+     "odds": -148,
+     "result": ""
+    },
+    {
+     "name": "Ty",
+     "pick": "Air Force +1.5 (-120)",
+     "game": "unlv-afa",
+     "type": "spread",
+     "side": "home",
+     "line": 1.5,
+     "odds": -120,
+     "result": ""
+    },
+    {
+     "name": "Billy",
+     "pick": "K-State -4.5 (-112)",
+     "game": "ku-ksu",
+     "type": "spread",
+     "side": "home",
+     "line": -4.5,
+     "odds": -112,
+     "result": ""
+    },
+    {
+     "name": "Seun",
+     "pick": "UCLA ML (-142)",
+     "game": "wis-ucla",
+     "type": "ml",
+     "side": "home",
+     "odds": -142,
+     "result": ""
+    },
+    {
+     "name": "Cole",
+     "pick": "Chiefs ML (-500)",
+     "game": "lac-kc",
+     "type": "ml",
+     "side": "home",
+     "odds": -500,
+     "result": ""
+    },
+    {
+     "name": "Preston",
+     "pick": "Shohei Ohtani home run (+475)",
+     "game": "mil-lad",
+     "type": "stat",
+     "player": "Shohei Ohtani",
+     "stat": "batting",
+     "statKey": "HR",
+     "statLabel": "home runs",
+     "ou": "over",
+     "line": 0.5,
+     "odds": 475,
+     "result": ""
+    },
+    {
+     "name": "Austin",
+     "pick": "Seahawks ML (-148)",
+     "game": "sea-den",
+     "type": "ml",
+     "side": "away",
+     "odds": -148,
+     "result": ""
+    },
+    {
+     "name": "Alex",
+     "pick": "K9 (Kenneth Walker) anytime TD (-165)",
+     "game": "sea-den",
+     "type": "td",
+     "player": "Kenneth Walker",
+     "odds": -165,
+     "result": ""
+    },
+    {
+     "name": "Jack",
+     "pick": "Ravens / Browns under 41.5 (-115)",
+     "game": "bal-cle",
+     "type": "total",
+     "ou": "under",
+     "line": 41.5,
+     "odds": -115,
+     "result": ""
+    },
+    {
+     "name": "Beck",
+     "pick": "Ravens -5.5 (-110)",
+     "game": "bal-cle",
+     "type": "spread",
+     "side": "away",
+     "line": -5.5,
+     "odds": -110,
+     "result": ""
+    },
+    {
+     "name": "Jackson",
+     "pick": "Ole Miss ML (-220)",
+     "game": "miz-miss",
+     "type": "ml",
+     "side": "home",
+     "odds": -220,
      "result": ""
     }
    ]

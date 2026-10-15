@@ -332,9 +332,9 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     var group = pick.stat || 'rushing', key = pick.statKey || 'YDS';
     for (var i = 0; i < s.players.length; i++) {
       var t = s.players[i], cat = null;
-      for (var j = 0; j < (t.statistics || []).length; j++) if (t.statistics[j].name === group) { cat = t.statistics[j]; break; }
+      for (var j = 0; j < (t.statistics || []).length; j++) if (t.statistics[j].name === group || t.statistics[j].type === group) { cat = t.statistics[j]; break; }
       if (!cat) continue;
-      var idx = (cat.labels || []).indexOf(key);
+      var idx = (cat.labels || cat.names || []).indexOf(key);
       if (idx < 0) continue;
       for (var k = 0; k < (cat.athletes || []).length; k++) {
         var a = cat.athletes[k];
@@ -368,7 +368,7 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     var thru = pick.segment === 'f5' && s.f5 ? ' thru ' + Math.min(5, s.f5.innings || 0) : '';
     if (pick.type === 'ml') return m > 0 ? { code: 'good', label: 'Up ' + d + thru } : m < 0 ? { code: 'bad', label: 'Down ' + d + thru } : { code: 'even', label: 'Tied' + thru };
     if (pick.type === 'spread') return m > 0 ? { code: 'good', label: 'Covering by ' + d } : m < 0 ? { code: 'bad', label: 'Short by ' + d } : { code: 'even', label: 'On the number' };
-    if (pick.type === 'stat') { var v = statValue(pick, s); return m > 0 ? { code: 'good', label: v + ' so far, over' } : { code: 'bad', label: v + ' so far, needs ' + pick.line }; }
+    if (pick.type === 'stat') { var v = statValue(pick, s); var need = Number.isInteger(+pick.line) ? (+pick.line + 1) : Math.ceil(+pick.line); return m > 0 ? { code: 'good', label: v + ' so far, over' } : { code: 'bad', label: v + ' so far, needs ' + (pick.ou === 'under' ? 'under ' + pick.line : need) }; }
     var ou = pick.ou === 'over' ? 'Over' : 'Under';
     return m > 0 ? { code: 'good', label: ou + ' by ' + d } : m < 0 ? { code: 'bad', label: (pick.ou === 'over' ? 'Under' : 'Over') + ' by ' + d } : { code: 'even', label: 'On the number' };
   }
