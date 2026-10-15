@@ -329,20 +329,20 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
   }
   function statValue(pick, s) {
     if (!s || !s.players) return null;
-    var group = pick.stat || 'rushing', key = pick.statKey || 'YDS';
+    var group = pick.stat || 'rushing', key = pick.statKey || 'YDS', seen = false;
     for (var i = 0; i < s.players.length; i++) {
       var t = s.players[i], cat = null;
       for (var j = 0; j < (t.statistics || []).length; j++) if (t.statistics[j].name === group || t.statistics[j].type === group) { cat = t.statistics[j]; break; }
       if (!cat) continue;
       var idx = (cat.labels || cat.names || []).indexOf(key);
       if (idx < 0) continue;
+      seen = true;
       for (var k = 0; k < (cat.athletes || []).length; k++) {
         var a = cat.athletes[k];
         if (a.athlete && nameMatch(a.athlete.displayName, pick.player)) return +(a.stats[idx]) || 0;
       }
-      return 0; /* team found in the box score but the player has no line yet */
     }
-    return null;
+    return seen ? 0 : null; /* box score is up but the player has no line yet */
   }
   function effResult(pick, week) {
     if (pick.result) return pick.result;

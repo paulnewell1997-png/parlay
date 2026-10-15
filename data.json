@@ -1247,26 +1247,6 @@
    "date": "2026-10-18",
    "games": [
     {
-     "id": "mil-lad",
-     "league": "mlb",
-     "away": "MIL",
-     "home": "LAD",
-     "awayName": "Brewers",
-     "homeName": "Dodgers",
-     "start": "2026-10-16T00:00:00Z",
-     "title": "NLCS Game 3",
-     "espn": {
-      "away": [
-       "MIL",
-       "Milwaukee"
-      ],
-      "home": [
-       "LAD",
-       "Los Angeles Dodgers"
-      ]
-     }
-    },
-    {
      "id": "sea-den",
      "league": "nfl",
      "away": "SEA",
@@ -1283,6 +1263,27 @@
       "home": [
        "DEN",
        "Denver"
+      ]
+     }
+    },
+    {
+     "id": "mil-lad",
+     "league": "mlb",
+     "away": "MIL",
+     "home": "LAD",
+     "awayName": "Brewers",
+     "homeName": "Dodgers",
+     "start": "2026-10-16T00:00:00Z",
+     "title": "NLCS Game 4",
+     "espn": {
+      "away": [
+       "MIL",
+       "Milwaukee"
+      ],
+      "home": [
+       "LAD",
+       "Los Angeles Dodgers",
+       "LA Dodgers"
       ]
      }
     },
@@ -1332,7 +1333,6 @@
      "awayName": "Kansas",
      "homeName": "Kansas State",
      "start": "2026-10-17T16:00:00Z",
-     "title": "Sunflower Showdown",
      "espn": {
       "away": [
        "KU",
@@ -1345,9 +1345,9 @@
      }
     },
     {
-     "id": "miz-miss",
+     "id": "mizz-miss",
      "league": "cfb",
-     "away": "MIZ",
+     "away": "MIZZ",
      "home": "MISS",
      "awayName": "Missouri",
      "homeName": "Ole Miss",
@@ -1452,7 +1452,8 @@
      "espn": {
       "away": [
        "LAC",
-       "Los Angeles Chargers"
+       "Los Angeles Chargers",
+       "LA Chargers"
       ],
       "home": [
        "KC",
@@ -1493,7 +1494,7 @@
     },
     {
      "name": "Paul",
-     "pick": "Mississippi State +14 (-108)",
+     "pick": "Miss St +14 (-108)",
      "game": "msst-lsu",
      "type": "spread",
      "side": "away",
@@ -1559,7 +1560,7 @@
     },
     {
      "name": "Preston",
-     "pick": "Shohei Ohtani home run (+475)",
+     "pick": "Shohei Ohtani HR (+475)",
      "game": "mil-lad",
      "type": "stat",
      "player": "Shohei Ohtani",
@@ -1583,7 +1584,7 @@
     {
      "name": "Alex",
      "pick": "K9 (Kenneth Walker) anytime TD (-165)",
-     "game": "sea-den",
+     "game": "lac-kc",
      "type": "td",
      "player": "Kenneth Walker",
      "odds": -165,
@@ -1612,7 +1613,7 @@
     {
      "name": "Jackson",
      "pick": "Ole Miss ML (-220)",
-     "game": "miz-miss",
+     "game": "mizz-miss",
      "type": "ml",
      "side": "home",
      "odds": -220,
