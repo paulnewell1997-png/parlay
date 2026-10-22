@@ -295,7 +295,7 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
   function gs(g) {
     if (!g) return null;
     var live = LIVE[g.id];
-    if (g.status === 'final' && g.as != null && g.hs != null) return { status: 'final', as: +g.as, hs: +g.hs, detail: g.detail || 'Final', period: g.period, clock: '', f5: g.f5 ? { as: +g.f5.as, hs: +g.f5.hs, done: true } : null, scoring: g.scoring || null, players: null, live: null };
+    if (g.status === 'final' && g.as != null && g.hs != null) return { status: 'final', as: +g.as, hs: +g.hs, detail: g.detail || 'Final', period: g.period, clock: '', f5: g.f5 ? { as: +g.f5.as, hs: +g.f5.hs, done: true } : null, q1: g.q1 ? { as: +g.q1.as, hs: +g.q1.hs, done: true } : null, scoring: g.scoring || null, players: null, live: null };
     if (live) return live;
     return { status: g.status || 'scheduled', as: g.as == null ? null : +g.as, hs: g.hs == null ? null : +g.hs, detail: g.detail || '', period: g.period, clock: g.clock || '', f5: null, scoring: null, players: null, live: null };
   }
@@ -303,6 +303,7 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
   function settled(pick, s) {
     if (!s) return false;
     if (pick.segment === 'f5') return !!(s.f5 && s.f5.done);
+    if (pick.segment === 'q1') return !!(s.q1 && s.q1.done);
     return s.status === 'final';
   }
   function margin(pick, g) {
@@ -310,6 +311,7 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     if (!s) return null;
     var as = s.as, hs = s.hs;
     if (pick.segment === 'f5') { if (!s.f5) return null; as = s.f5.as; hs = s.f5.hs; }
+    if (pick.segment === 'q1') { if (!s.q1) return null; as = s.q1.as; hs = s.q1.hs; }
     if (as == null || hs == null) return null;
     var mine = pick.side === 'home' ? hs : as, theirs = pick.side === 'home' ? as : hs;
     if (pick.type === 'ml') return mine - theirs;
@@ -378,6 +380,7 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
     if (pick.type === 'td') return (pick.player || 'The player') + ' scores a touchdown at any point in the game.';
     if (pick.type === 'stat') return (pick.player || 'The player') + ' ' + (pick.ou === 'under' ? 'under' : 'over') + ' ' + pick.line + ' ' + (pick.statLabel || (pick.stat || 'rushing') + ' yards') + '.';
     if (pick.segment === 'f5') return team + ' ahead after 5 innings (tied after 5 is a push).';
+    if (pick.segment === 'q1') { var q = +pick.line || 0; return 'First quarter only: ' + team + (q < 0 ? ' win the 1st quarter by ' + Math.ceil(-q) + '+' : ' win the 1st quarter or lose it by ' + Math.floor(q) + ' or less') + '.'; }
     if (pick.type === 'ml') return team + ' win outright.';
     if (pick.type === 'spread') {
       var l = +pick.line || 0;
@@ -464,6 +467,7 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
       var sum5 = function (a) { return a.slice(0, 5).reduce(function (x, y) { return x + y; }, 0); };
       var period = +st.period || 0;
       f5 = { as: sum5(la), hs: sum5(lh), innings: Math.min(5, Math.max(la.length, lh.length)), done: stateCode === 'final' || period >= 6 };
+      var q1 = { as: la[0] || 0, hs: lh[0] || 0, done: stateCode === 'final' || period >= 2 };
     }
     var prev = LIVE[m.gameId] || {};
     return {
@@ -480,6 +484,7 @@ footer.about { margin: 30px 0 28px; font-size: 13px; color: var(--ink-3); max-wi
       odds: odds ? { details: odds.details || '', ou: odds.overUnder } : null,
       tv: tv,
       f5: f5,
+      q1: typeof q1 !== 'undefined' ? q1 : null,
       scoring: prev.scoring || null,
       players: prev.players || null,
       live: true

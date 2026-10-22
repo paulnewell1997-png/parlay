@@ -1264,7 +1264,10 @@
        "DEN",
        "Denver"
       ]
-     }
+     },
+     "status": "final",
+     "as": 14,
+     "hs": 17
     },
     {
      "id": "mil-lad",
@@ -1285,7 +1288,10 @@
        "Los Angeles Dodgers",
        "LA Dodgers"
       ]
-     }
+     },
+     "status": "final",
+     "as": 6,
+     "hs": 4
     },
     {
      "id": "osu-iu",
@@ -1305,7 +1311,10 @@
        "IND",
        "Indiana"
       ]
-     }
+     },
+     "status": "final",
+     "as": 19,
+     "hs": 15
     },
     {
      "id": "msst-lsu",
@@ -1323,7 +1332,10 @@
       "home": [
        "LSU"
       ]
-     }
+     },
+     "status": "final",
+     "as": 0,
+     "hs": 31
     },
     {
      "id": "ku-ksu",
@@ -1342,7 +1354,10 @@
        "KSU",
        "Kansas State"
       ]
-     }
+     },
+     "status": "final",
+     "as": 24,
+     "hs": 35
     },
     {
      "id": "mizz-miss",
@@ -1362,7 +1377,10 @@
        "MISS",
        "Ole Miss"
       ]
-     }
+     },
+     "status": "final",
+     "as": 3,
+     "hs": 31
     },
     {
      "id": "unlv-afa",
@@ -1381,7 +1399,10 @@
        "AF",
        "Air Force"
       ]
-     }
+     },
+     "status": "final",
+     "as": 31,
+     "hs": 41
     },
     {
      "id": "wis-ucla",
@@ -1399,7 +1420,10 @@
       "home": [
        "UCLA"
       ]
-     }
+     },
+     "status": "final",
+     "as": 7,
+     "hs": 17
     },
     {
      "id": "hou-jax",
@@ -1420,7 +1444,10 @@
        "JAC",
        "Jacksonville"
       ]
-     }
+     },
+     "status": "final",
+     "as": 34,
+     "hs": 31
     },
     {
      "id": "bal-cle",
@@ -1439,7 +1466,10 @@
        "CLE",
        "Cleveland"
       ]
-     }
+     },
+     "status": "final",
+     "as": 10,
+     "hs": 13
     },
     {
      "id": "lac-kc",
@@ -1459,7 +1489,10 @@
        "KC",
        "Kansas City"
       ]
-     }
+     },
+     "status": "final",
+     "as": 6,
+     "hs": 22
     },
     {
      "id": "dal-gb",
@@ -1479,7 +1512,10 @@
        "GB",
        "Green Bay"
       ]
-     }
+     },
+     "status": "final",
+     "as": 13,
+     "hs": 23
     }
    ],
    "picks": [
@@ -1570,7 +1606,7 @@
      "ou": "over",
      "line": 0.5,
      "odds": 475,
-     "result": ""
+     "result": "W"
     },
     {
      "name": "Austin",
@@ -1588,7 +1624,7 @@
      "type": "td",
      "player": "Kenneth Walker",
      "odds": -165,
-     "result": ""
+     "result": "W"
     },
     {
      "name": "Jack",
@@ -1617,6 +1653,365 @@
      "type": "ml",
      "side": "home",
      "odds": -220,
+     "result": ""
+    }
+   ]
+  },
+  {
+   "label": "Week 6",
+   "nickname": "The Kittay",
+   "date": "2026-10-25",
+   "games": [
+    {
+     "id": "tb-mil",
+     "league": "mlb",
+     "away": "TB",
+     "home": "MIL",
+     "awayName": "Rays",
+     "homeName": "Brewers",
+     "start": "2026-10-24T00:00:00Z",
+     "title": "World Series Game 1",
+     "espn": {
+      "away": [
+       "TB",
+       "Tampa Bay"
+      ],
+      "home": [
+       "MIL",
+       "Milwaukee"
+      ]
+     }
+    },
+    {
+     "id": "afa-wyo",
+     "league": "cfb",
+     "away": "AFA",
+     "home": "WYO",
+     "awayName": "Air Force",
+     "homeName": "Wyoming",
+     "start": "2026-10-24T01:00:00Z",
+     "espn": {
+      "away": [
+       "AFA",
+       "AF",
+       "Air Force"
+      ],
+      "home": [
+       "WYO",
+       "Wyoming"
+      ]
+     }
+    },
+    {
+     "id": "tenn-sc",
+     "league": "cfb",
+     "away": "TENN",
+     "home": "SC",
+     "awayName": "Tennessee",
+     "homeName": "South Carolina",
+     "start": "2026-10-24T19:30:00Z",
+     "espn": {
+      "away": [
+       "TENN",
+       "Tennessee"
+      ],
+      "home": [
+       "SC",
+       "South Carolina"
+      ]
+     }
+    },
+    {
+     "id": "iowa-minn",
+     "league": "cfb",
+     "away": "IOWA",
+     "home": "MINN",
+     "awayName": "Iowa",
+     "homeName": "Minnesota",
+     "start": "2026-10-24T19:30:00Z",
+     "espn": {
+      "away": [
+       "IOWA",
+       "Iowa"
+      ],
+      "home": [
+       "MINN",
+       "Minnesota"
+      ]
+     }
+    },
+    {
+     "id": "miss-tex",
+     "league": "cfb",
+     "away": "MISS",
+     "home": "TEX",
+     "awayName": "Ole Miss",
+     "homeName": "Texas",
+     "start": "2026-10-24T23:30:00Z",
+     "espn": {
+      "away": [
+       "MISS",
+       "Ole Miss"
+      ],
+      "home": [
+       "TEX",
+       "Texas"
+      ]
+     }
+    },
+    {
+     "id": "pit-no",
+     "league": "nfl",
+     "away": "PIT",
+     "home": "NO",
+     "awayName": "Steelers",
+     "homeName": "Saints",
+     "start": "2026-10-25T13:30:00Z",
+     "title": "Paris",
+     "espn": {
+      "away": [
+       "PIT",
+       "Pittsburgh"
+      ],
+      "home": [
+       "NO",
+       "New Orleans"
+      ]
+     }
+    },
+    {
+     "id": "sf-atl",
+     "league": "nfl",
+     "away": "SF",
+     "home": "ATL",
+     "awayName": "49ers",
+     "homeName": "Falcons",
+     "start": "2026-10-25T17:00:00Z",
+     "espn": {
+      "away": [
+       "SF",
+       "San Francisco"
+      ],
+      "home": [
+       "ATL",
+       "Atlanta"
+      ]
+     }
+    },
+    {
+     "id": "tb-car",
+     "league": "nfl",
+     "away": "TB",
+     "home": "CAR",
+     "awayName": "Buccaneers",
+     "homeName": "Panthers",
+     "start": "2026-10-25T17:00:00Z",
+     "espn": {
+      "away": [
+       "TB",
+       "Tampa Bay"
+      ],
+      "home": [
+       "CAR",
+       "Carolina"
+      ]
+     }
+    },
+    {
+     "id": "cin-bal",
+     "league": "nfl",
+     "away": "CIN",
+     "home": "BAL",
+     "awayName": "Bengals",
+     "homeName": "Ravens",
+     "start": "2026-10-25T17:00:00Z",
+     "espn": {
+      "away": [
+       "CIN",
+       "Cincinnati"
+      ],
+      "home": [
+       "BAL",
+       "Baltimore"
+      ]
+     }
+    },
+    {
+     "id": "gb-det",
+     "league": "nfl",
+     "away": "GB",
+     "home": "DET",
+     "awayName": "Packers",
+     "homeName": "Lions",
+     "start": "2026-10-25T20:25:00Z",
+     "espn": {
+      "away": [
+       "GB",
+       "Green Bay"
+      ],
+      "home": [
+       "DET",
+       "Detroit"
+      ]
+     }
+    },
+    {
+     "id": "kc-sea",
+     "league": "nfl",
+     "away": "KC",
+     "home": "SEA",
+     "awayName": "Chiefs",
+     "homeName": "Seahawks",
+     "start": "2026-10-26T00:20:00Z",
+     "title": "Sunday Night Football",
+     "espn": {
+      "away": [
+       "KC",
+       "Kansas City"
+      ],
+      "home": [
+       "SEA",
+       "Seattle"
+      ]
+     }
+    }
+   ],
+   "picks": [
+    {
+     "name": "William",
+     "pick": "Panthers ML (-158)",
+     "game": "tb-car",
+     "type": "ml",
+     "side": "home",
+     "odds": -158,
+     "result": ""
+    },
+    {
+     "name": "Paul",
+     "pick": "Minnesota +6.5 (-105)",
+     "game": "iowa-minn",
+     "type": "spread",
+     "side": "home",
+     "line": 6.5,
+     "odds": -105,
+     "result": ""
+    },
+    {
+     "name": "Chris",
+     "pick": "Bengals +3 (-120)",
+     "game": "cin-bal",
+     "type": "spread",
+     "side": "away",
+     "line": 3,
+     "odds": -120,
+     "result": ""
+    },
+    {
+     "name": "Matthew",
+     "pick": "Steelers -3.5 (-102)",
+     "game": "pit-no",
+     "type": "spread",
+     "side": "away",
+     "line": -3.5,
+     "odds": -102,
+     "result": ""
+    },
+    {
+     "name": "Ty",
+     "pick": "Air Force 1st quarter -1.5 (+118)",
+     "game": "afa-wyo",
+     "type": "spread",
+     "side": "away",
+     "segment": "q1",
+     "line": -1.5,
+     "odds": 118,
+     "result": ""
+    },
+    {
+     "name": "Billy",
+     "pick": "Angel Reese first point scorer (+590)",
+     "type": "prop",
+     "odds": 590,
+     "result": "W"
+    },
+    {
+     "name": "Seun",
+     "pick": "Packers +3 (-112)",
+     "game": "gb-det",
+     "type": "spread",
+     "side": "away",
+     "line": 3,
+     "odds": -112,
+     "result": ""
+    },
+    {
+     "name": "Cole",
+     "pick": "Chiefs ML (+125)",
+     "game": "kc-sea",
+     "type": "ml",
+     "side": "away",
+     "odds": 125,
+     "result": ""
+    },
+    {
+     "name": "Preston",
+     "pick": "Sal Frelick HR, Game 1 (+1200)",
+     "game": "tb-mil",
+     "type": "stat",
+     "player": "Sal Frelick",
+     "stat": "batting",
+     "statKey": "HR",
+     "statLabel": "home runs",
+     "ou": "over",
+     "line": 0.5,
+     "odds": 1200,
+     "result": ""
+    },
+    {
+     "name": "Austin",
+     "pick": "South Carolina ML (-135)",
+     "game": "tenn-sc",
+     "type": "ml",
+     "side": "home",
+     "odds": -135,
+     "result": ""
+    },
+    {
+     "name": "Alex",
+     "pick": "K9 (Kenneth Walker) anytime TD (-130)",
+     "game": "kc-sea",
+     "type": "td",
+     "player": "Kenneth Walker",
+     "odds": -130,
+     "result": ""
+    },
+    {
+     "name": "Jack",
+     "pick": "Chiefs / Seahawks under 42.5 (-110)",
+     "game": "kc-sea",
+     "type": "total",
+     "ou": "under",
+     "line": 42.5,
+     "odds": -110,
+     "result": ""
+    },
+    {
+     "name": "Beck",
+     "pick": "49ers -2.5 (-120)",
+     "game": "sf-atl",
+     "type": "spread",
+     "side": "away",
+     "line": -2.5,
+     "odds": -120,
+     "result": ""
+    },
+    {
+     "name": "Jackson",
+     "pick": "Texas ML (-163)",
+     "game": "miss-tex",
+     "type": "ml",
+     "side": "home",
+     "odds": -163,
      "result": ""
     }
    ]
